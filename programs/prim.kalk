@@ -1,0 +1,19 @@
+CITESTE n
+
+DECLAR i VALOARE 2
+DECLAR prim VALOARE 1
+
+DACA n < 2 ATUNCI
+    prim <- 0
+ALTFEL
+    CATTIMP i * i <= n EXECUTA
+        DACA n % i == 0 ATUNCI
+            prim <- 0
+            i <- n
+        ALTFEL
+            i <- i + 1
+        SFARSIT
+    SFARSIT
+SFARSIT
+
+SCRIE prim
