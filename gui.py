@@ -311,11 +311,48 @@ class KalkWindow(QMainWindow):
     def apply_dark_theme(self):
         self.setStyleSheet("""
         QMainWindow { background-color: #1e1e1e; }
-        QPlainTextEdit { background-color: #1e1e1e; color: #d4d4d4; border: 1px solid #333; }
-        QListWidget { background-color: #252526; color: #ccc; border: 1px solid #333; }
-        QPushButton { background-color: #3c3c3c; color: white; padding: 6px; }
-        QPushButton:hover { background-color: #505050; }
-        QLabel { color: #ccc; }
+
+        QPlainTextEdit {
+            background-color: #1e1e1e;
+            color: #d4d4d4;
+            border: 1px solid #333;
+        }
+
+        QListWidget {
+            background-color: #252526;
+            color: #ccc;
+            border: 1px solid #333;
+        }
+
+        QPushButton {
+            background-color: #3c3c3c;
+            color: white;
+            padding: 6px;
+        }
+
+        QPushButton:hover {
+            background-color: #505050;
+        }
+
+        QLabel {
+            color: #ccc;
+        }
+
+        /* 🔥 FIX INPUT DIALOG */
+        QInputDialog {
+            background-color: #2d2d2d;
+        }
+
+        QInputDialog QLabel {
+            color: #ffffff;
+        }
+
+        QInputDialog QLineEdit {
+            background-color: #1e1e1e;
+            color: #ffffff;
+            border: 1px solid #555;
+            padding: 4px;
+        }
         """)
 
     # ---------- FILE MANAGEMENT ----------
@@ -371,7 +408,50 @@ class KalkWindow(QMainWindow):
             program = parser.parse_program()
 
             ctx = Context()
+
+            # ===============================
+            # INPUT PROVIDER DEFINITIV FIX
+            # ===============================
+
+            def gui_input_provider(var_name=None):
+                label = f"Introduceți valoarea:"
+                if var_name:
+                    label = f"Introduceți valoarea pentru {var_name}:"
+
+                value, ok = QInputDialog.getText(
+                    self,
+                    "Input necesar",
+                    label
+                )
+
+                if not ok:
+                    raise Exception("Input anulat de utilizator")
+
+                # conversie automată numerică
+                if value.isdigit():
+                    return int(value)
+
+                try:
+                    return float(value)
+                except:
+                    return value
+
+            # punem provider-ul peste tot unde ar putea fi folosit
+            ctx.input_provider = gui_input_provider
+
             engine = Engine()
+            engine.input_provider = gui_input_provider
+
+            # dacă engine caută în context prin metodă
+            if hasattr(ctx, "set_input_provider"):
+                ctx.set_input_provider(gui_input_provider)
+
+            # dacă engine caută metodă directă
+            if hasattr(ctx, "get_input"):
+                ctx.get_input = gui_input_provider
+
+            # ===============================
+
             engine.run(program, ctx)
 
             self.output.setPlainText("\n".join(ctx.output))
