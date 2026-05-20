@@ -56,4 +56,4 @@ Acest proiect este licențiat sub **Licența MIT**.
 Licențiat către: **fl9ppy** (GitHub).
 
 ---
-*Creat ca proiect final pentru cursul de informatică.*
+*Creat ca proiect final pentru atestatul de informatică.*
