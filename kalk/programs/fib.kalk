@@ -1,0 +1,22 @@
+CITESTE n
+
+DECLAR a VALOARE 0
+DECLAR b VALOARE 1
+DECLAR temp VALOARE 0
+DECLAR i VALOARE 2
+
+DACA n == 0 ATUNCI
+    SCRIE 0
+ALTFEL
+    DACA n == 1 ATUNCI
+        SCRIE 1
+    ALTFEL
+        CATTIMP i <= n EXECUTA
+            temp <- a + b
+            a <- b
+            b <- temp
+            i <- i + 1
+        SFARSIT
+        SCRIE b
+    SFARSIT
+SFARSIT

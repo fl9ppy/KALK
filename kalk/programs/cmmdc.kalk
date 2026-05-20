@@ -1,0 +1,12 @@
+CITESTE a
+CITESTE b
+
+DECLAR r VALOARE 0
+
+CATTIMP b != 0 EXECUTA
+    r <- a % b
+    a <- b
+    b <- r
+SFARSIT
+
+SCRIE a

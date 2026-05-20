@@ -1,0 +1,10 @@
+CITESTE n
+DECLAR f VALOARE 1
+DECLAR i VALOARE 1
+
+CATTIMP i <= n EXECUTA
+    f <- f * i
+    i <- i + 1
+SFARSIT
+
+SCRIE f
